@@ -27,7 +27,7 @@ SAIDA = RAIZ / "build"
 DOCUMENTO = "main"
 
 # Pacotes que o auto-instalador do pytinytex não detecta sozinho (classe, .bst, idioma).
-PACOTES = ["memoir", "abntex2", "babel-portuges", "hyphen-portuguese"]
+PACOTES = ["memoir", "abntex2", "babel-portuges", "hyphen-portuguese", "rsfs"]
 
 # Sufixo dos executáveis do TinyTeX: ".exe" só no Windows.
 EXE = ".exe" if os.name == "nt" else ""

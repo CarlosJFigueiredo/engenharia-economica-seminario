@@ -1,0 +1,202 @@
+% Marco teórico, parte 2 (pessoa 5): velocity, produtividade e conversão de estimativa em custo.
+% A parte 1 (histórias de usuário, story points e Planning Poker) fica em 02a-historias-pontos.tex.
+% Os valores numéricos desta parte são hipotéticos e seguem o exemplo da Equação (eq:previsao).
+% Convenção desta parte: sem travessões e sem ponto e vírgula. Citações com vários autores
+% usam \citeonline, porque \cite separa os sobrenomes com ponto e vírgula no padrão ABNT.
+
+\subsection{\textit{Velocity}}
+\label{sub:velocity}
+
+Saber o tamanho de uma história não diz, sozinho, quando ela vai ficar pronta.
+Quem responde a essa pergunta é a \textit{velocity}, isto é, a quantidade de
+trabalho que a equipe consegue concluir em uma iteração. Quando as histórias são
+estimadas em \textit{story points}, a \textit{velocity} é simplesmente a soma dos
+pontos das histórias terminadas no \textit{sprint} \cite{cohn2005}. A regra de
+contagem é rígida de propósito. Uma história que ficou 90\% pronta vale zero
+pontos naquele \textit{sprint}, porque ainda vai consumir esforço no seguinte, e
+contá-la pela metade daria a impressão de um avanço que não aconteceu
+\cite{cohn2005}.
+
+Há um efeito curioso nessa medida. Se a equipe subestima as histórias de forma
+sistemática, ela também termina menos pontos por iteração do que esperava, e a
+divisão entre as duas grandezas continua dando um prazo coerente.
+\citeonline{cohn2005} vê nisso uma forma de autocorreção da estimativa. Mas a
+compensação depende de duas condições que nem sempre se mantêm. A primeira é que
+a equipe use a escala de pontos sempre do mesmo jeito. A segunda é que a própria
+equipe não mude muito. Basta trocar parte dos integrantes, adotar uma tecnologia
+nova ou rever o critério de pontuação para que o histórico deixe de servir de
+referência.
+
+Na prática, a \textit{velocity} oscila de um \textit{sprint} para outro. Férias,
+feriados, incidentes em produção e histórias que não cabem na iteração bastam
+para tirá-la do lugar. Por isso, \citeonline{cohn2005} sugere trabalhar com a
+média das últimas iterações e comunicar prazos como uma faixa, e não como um
+número fechado. Para uma equipe sem histórico, o autor aponta três caminhos.
+Ela pode usar dados de um projeto parecido, rodar algumas iterações antes de
+prometer qualquer prazo ou estimar a capacidade disponível quebrando as
+histórias em tarefas medidas em horas. Se $v_1, \dots, v_k$ são as
+\textit{velocities} das $k$ últimas iterações, a média e os extremos observados
+são
+%
+\begin{equation}
+  \bar{v} = \frac{1}{k}\sum_{i=1}^{k} v_i, \qquad
+  v_{\min} = \min_i v_i, \qquad
+  v_{\max} = \max_i v_i .
+  \label{eq:velocity}
+\end{equation}
+
+Prever a \textit{velocity} virou, inclusive, tema de pesquisa.
+\citeonline{hearty2009} representam a \textit{velocity} de projetos XP com uma
+rede bayesiana dinâmica, que se recalibra a cada iteração e, assim, melhora a
+previsão à medida que o projeto gera dados. \citeonline{choetkiertikul2018}
+seguem outro caminho e usam informações de iterações e de \textit{issues} de
+projetos de código aberto para prever, com o \textit{sprint} ainda em andamento,
+se a equipe vai entregar o que planejou. Os dois trabalhos partem da mesma
+constatação. Tratar a \textit{velocity} como um número fixo esconde boa parte do
+risco da previsão.
+
+\subsection{Produtividade e capacidade da equipe}
+\label{sub:produtividade}
+
+Em economia, produtividade é a razão entre o que se produz e o que se gasta para
+produzir. Na estimativa tradicional de software, ela costuma aparecer como
+tamanho por esforço, em linhas de código por pessoa-mês, como nos modelos de
+\citeonline{boehm1981}, ou em pontos de função por unidade de esforço, medida
+que \citeonline{albrecht1983} relacionaram ao esforço de desenvolvimento. A
+\textit{velocity} tem a mesma forma, pontos por iteração, mas carrega duas
+diferenças que mudam a maneira de usá-la.
+
+A primeira diferença está na unidade. Como vimos na
+Seção~\ref{sub:storypoints}, o ponto de uma equipe não equivale ao ponto de
+outra. Comparar a \textit{velocity} de duas equipes, portanto, é comparar
+réguas diferentes, e \citeonline{cohn2005} desaconselha esse uso. O problema
+piora quando a \textit{velocity} vira meta de desempenho. A equipe passa a
+``entregar'' mais pontos sem entregar mais funcionalidade, bastando para isso
+aumentar as estimativas, e a métrica perde justamente o que tinha de útil, que
+era ajudar a prever. O estudo de caso de \citeonline{schull2023}, numa grande
+montadora, mostra como é difícil levar indicadores de equipes ágeis aos níveis
+de produto e portfólio sem distorcê-los. Já \citeonline{koch2008} mostra, em
+projetos de código aberto, que a escolha da medida de esforço altera as
+conclusões sobre a eficiência econômica do desenvolvimento.
+
+A segunda diferença é que a \textit{velocity} mistura produtividade com
+capacidade. Se ela cai, pode ser que a equipe tenha rendido menos, ou apenas que
+tenha trabalhado menos dias. Uma forma simples de separar os dois efeitos é
+corrigir a média pela capacidade prevista. Sendo $h_p$ as horas-pessoa
+disponíveis no próximo \textit{sprint} e $\bar{h}$ a média de horas-pessoa das
+iterações usadas no cálculo de $\bar{v}$, a \textit{velocity} esperada é
+%
+\begin{equation}
+  v_{\text{esp}} = \bar{v}\,\frac{h_p}{\bar{h}} .
+  \label{eq:capacidade}
+\end{equation}
+%
+Uma equipe que costuma entregar 30 pontos e terá 20\% menos horas por causa de
+um feriado e de uma licença deveria planejar algo perto de 24 pontos para o
+\textit{sprint}. O ajuste supõe que a produtividade por hora não mude, o que é
+razoável no curto prazo. Ela deixa de valer quando entra gente nova no time, porque as
+horas disponíveis aumentam ao mesmo tempo em que o rendimento por hora cai,
+enquanto os novos integrantes aprendem o sistema.
+
+\subsection{Conversão da estimativa em prazo e custo}
+\label{sub:custo}
+
+A Equação~\ref{eq:previsao} já transforma o \textit{backlog} em número de
+\textit{sprints} e em custo. Para que esse resultado sustente uma decisão de
+investimento, ainda faltam duas coisas. É preciso saber de onde vem o custo da
+equipe por \textit{sprint} e é preciso dizer o quanto a previsão pode errar.
+
+O custo por \textit{sprint} vem do tempo das pessoas, que é o maior componente do
+custo de um projeto de software \cite{boehm1981}. Com $n$ integrantes dedicados,
+$h$ horas de trabalho de cada um no \textit{sprint} e um custo por hora $c_h$ que
+já inclua salário, encargos e benefícios, tem-se
+%
+\begin{equation}
+  c_s = n\,h\,c_h .
+  \label{eq:custosprint}
+\end{equation}
+%
+Os R\$\,60.000 por \textit{sprint} usados na Introdução correspondem, por
+exemplo, a seis pessoas trabalhando 80 horas cada em um \textit{sprint} de duas
+semanas, a R\$\,125 por hora. Gastos que não dependem do tamanho do time, como
+licenças e infraestrutura, entram em $c_s$ quando crescem com a duração do
+projeto, ou são somados uma única vez ao custo total quando não crescem.
+
+Como a \textit{velocity} oscila, faz mais sentido prever uma faixa do que um
+valor. Usando os extremos da Equação~\ref{eq:velocity} e arredondando o número de
+\textit{sprints} para cima, já que ninguém paga meio \textit{sprint} de uma
+equipe dedicada, chega-se a um cenário otimista e a um pessimista:
+%
+\begin{equation}
+  N_{\min} = \left\lceil \frac{B}{v_{\max}} \right\rceil, \qquad
+  N_{\max} = \left\lceil \frac{B}{v_{\min}} \right\rceil, \qquad
+  N_{\min}\,c_s \le C \le N_{\max}\,c_s .
+  \label{eq:intervalo}
+\end{equation}
+%
+Suponha que as cinco últimas \textit{velocities} da equipe do exemplo tenham sido
+26, 31, 28, 34 e 31 pontos. A média é exatamente 30, o mesmo valor usado na
+Introdução, mas o \textit{backlog} de 240 pontos pode levar de 8 a 10
+\textit{sprints}, e o custo fica entre R\$\,480.000 e R\$\,600.000. Os
+R\$\,480.000 calculados antes são o melhor caso dessa faixa. Apresentar só esse
+número a quem aprova o orçamento seria cair no excesso de confiança descrito por
+\citeonline{jorgensen2005}. Vale lembrar que os extremos de cinco iterações não
+são limites garantidos. Modelos que produzem uma distribuição de prazos, como a
+rede bayesiana de \citeonline{hearty2009}, permitem dizer também qual é a
+probabilidade de cada cenário.
+
+A incerteza também muda ao longo do projeto. No começo, com requisitos ainda
+vagos, ela é grande, e vai diminuindo conforme o produto é entendido e
+construído. Esse padrão ficou conhecido como cone da incerteza \cite{boehm1981}.
+\citeonline{little2006}, analisando dados de projetos reais, confirma que a
+incerteza nas estimativas de prazo é alta, mas encontra um cone menos estreito
+do que o modelo sugere e uma razão entre prazo real e prazo estimado com
+distribuição assimétrica, de cauda longa para o lado dos atrasos. Para quem faz
+a análise financeira, a lição é dupla. O cenário pessimista merece mais peso que
+o otimista, e a previsão precisa ser refeita a cada \textit{sprint}, com o
+\textit{backlog} e a \textit{velocity} atualizados.
+
+\subsection{Acompanhamento do custo durante o projeto}
+\label{sub:agileevm}
+
+Depois que o orçamento é aprovado, as mesmas grandezas servem para acompanhar a
+execução. \citeonline{sulaiman2006} adaptaram ao Scrum a gestão de valor
+agregado (\textit{Earned Value Management}, EVM), técnica clássica de controle
+de projetos, e chamaram o resultado de AgileEVM. A ideia central é medir o
+progresso pelos pontos concluídos, sem depender de um cronograma detalhado de
+tarefas. Considere $BAC$ o orçamento total (\textit{budget at completion}), $N$ o
+número de \textit{sprints} planejados, $j$ os \textit{sprints} já concluídos,
+$P_c$ os pontos entregues até agora e $AC$ o custo real gasto até o momento
+(\textit{actual cost}). Com essas grandezas calculam-se o valor planejado $PV$,
+o valor agregado $EV$ e os índices de desempenho de custo ($CPI$) e de prazo
+($SPI$):
+%
+\begin{equation}
+  PV = \frac{j}{N}\,BAC, \qquad
+  EV = \frac{P_c}{B}\,BAC, \qquad
+  CPI = \frac{EV}{AC}, \qquad
+  SPI = \frac{EV}{PV} .
+  \label{eq:agileevm}
+\end{equation}
+
+Voltando ao exemplo, com $BAC = \text{R\$}\,480.000$ e $N = 8$, imagine que, ao
+fim do quarto \textit{sprint}, a equipe tenha entregado 112 dos 240 pontos e
+gastado R\$\,250.000. Nesse caso, $PV = \text{R\$}\,240.000$,
+$EV = \text{R\$}\,224.000$, $CPI \approx 0{,}90$ e $SPI \approx 0{,}93$. Em
+outras palavras, o projeto entregou menos do que o planejado para a metade do caminho
+e gastou mais do que vale o que entregou. Se esse ritmo continuar, o custo
+estimado no término é $BAC/CPI \approx \text{R\$}\,536.000$. O valor cai dentro
+da faixa da Equação~\ref{eq:intervalo}, mas fica bem acima dos R\$\,480.000 que
+teriam sido prometidos se a previsão fosse pontual. O AgileEVM não resolve a
+incerteza dos pontos, já que $EV$ depende de $B$, e $B$ muda sempre que o
+\textit{backlog} muda. O que ele oferece é uma tradução. O progresso, que o time
+enxerga em pontos, passa a ser descrito em custo e prazo, que é a linguagem de
+quem decide sobre o investimento.
+
+Olhando o caminho inteiro, da história de usuário até o orçamento, há três
+conversões. A equipe estima o tamanho em pontos, a \textit{velocity}
+transforma pontos em tempo e o custo do time transforma tempo em dinheiro. Cada
+uma delas soma incerteza à anterior. Por isso, uma previsão financeira baseada
+em \textit{story points} só ajuda de verdade quando chega a quem decide como
+uma faixa de valores, revista a cada iteração, e não como um número único
+tratado como certo.
