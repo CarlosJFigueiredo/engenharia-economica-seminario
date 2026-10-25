@@ -1,11 +1,14 @@
 """Compila o artigo do seminário (artigo/main.tex) para build/artigo.pdf.
 
+Funciona em Windows, Linux (inclusive WSL) e macOS.
+
 Uso, a partir da raiz do repositório:
 
     python build.py            # compila (pdflatex -> bibtex -> pdflatex x2)
     python build.py --clean    # apaga build/ antes de compilar
 
-Usa a biblioteca pytinytex (TinyTeX). Pacotes LaTeX ausentes são instalados
+Usa a biblioteca pytinytex (TinyTeX). Se o TinyTeX ainda não estiver instalado,
+o script tenta baixá-lo (uma única vez). Pacotes LaTeX ausentes são instalados
 automaticamente pelo tlmgr na primeira compilação.
 """
 
@@ -26,14 +29,61 @@ DOCUMENTO = "main"
 # Pacotes que o auto-instalador do pytinytex não detecta sozinho (classe, .bst, idioma).
 PACOTES = ["memoir", "abntex2", "babel-portuges", "hyphen-portuguese"]
 
+# Sufixo dos executáveis do TinyTeX: ".exe" só no Windows.
+EXE = ".exe" if os.name == "nt" else ""
+
+
+def garantir_tinytex() -> None:
+    """Confirma que o TinyTeX existe; se não, baixa (Linux e macOS) ou orienta (Windows)."""
+    try:
+        pytinytex.get_tinytex_path()
+        return
+    except Exception:
+        pass
+
+    print("TinyTeX não encontrado; baixando (só na primeira vez)...")
+    try:
+        pytinytex.download_tinytex()
+    except Exception as erro:
+        if os.name == "nt":
+            sys.exit(
+                f"Não foi possível baixar o TinyTeX automaticamente ({erro}).\n"
+                "No Windows, siga a seção 'TinyTeX no Windows' do README."
+            )
+        sys.exit(
+            f"Não foi possível baixar o TinyTeX automaticamente ({erro}).\n"
+            "Verifique a conexão e tente de novo."
+        )
+
+
+def ferramenta(nome: str) -> Path:
+    """Caminho de um executável do TinyTeX (bibtex, fmtutil-sys...) em qualquer sistema."""
+    pasta_bin = Path(pytinytex.get_tinytex_path())
+    for candidato in (nome + EXE, nome):
+        caminho = pasta_bin / candidato
+        if caminho.exists():
+            return caminho
+    sys.exit(f"Executável '{nome}' não encontrado em {pasta_bin}.")
+
 
 def reconstruir_formato() -> None:
     """Recria o pdflatex.fmt para que a hifenização em português entre no formato."""
-    fmtutil = Path(pytinytex.get_tinytex_path()) / "fmtutil-sys.exe"
-    subprocess.run([str(fmtutil), "--byfmt", "pdflatex"], check=True, capture_output=True)
+    fmtutil = ferramenta("fmtutil-sys")
+    proc = subprocess.run(
+        [str(fmtutil), "--byfmt", "pdflatex"], capture_output=True, text=True
+    )
+    if proc.returncode != 0:
+        print(proc.stdout, proc.stderr, sep="\n")
+        sys.exit("Falha ao reconstruir o formato do pdflatex (fmtutil-sys).")
 
 
 def garantir_pacotes() -> None:
+    # O pytinytex resolve o symlink do tlmgr; no Linux/macOS o tlmgr.pl então procura o
+    # kpsewhich ao lado de si para descobrir a raiz do TeX Live. Um symlink resolve.
+    raiz = Path(pytinytex.get_tinytex_path())
+    atalho = raiz.parents[1] / "texmf-dist" / "scripts" / "texlive" / "kpsewhich"
+    if os.name != "nt" and not atalho.exists():
+        atalho.symlink_to(raiz / "kpsewhich")
     instalados = {p["name"] for p in pytinytex.list_installed() if p["installed"]}
     novos = [p for p in PACOTES if p not in instalados]
     for pacote in novos:
@@ -54,9 +104,7 @@ def compilar(passes: int) -> pytinytex.CompileResult:
 
 
 def rodar_bibtex() -> None:
-    bibtex = Path(pytinytex.get_tinytex_path()) / "bibtex.exe"
-    if not bibtex.exists():
-        bibtex = bibtex.with_suffix("")
+    bibtex = ferramenta("bibtex")
     env = {**os.environ, "BIBINPUTS": f"{FONTE}{os.pathsep}"}
     proc = subprocess.run(
         [str(bibtex), DOCUMENTO], cwd=SAIDA, env=env, capture_output=True, text=True
@@ -83,6 +131,7 @@ def main() -> None:
         shutil.rmtree(SAIDA)
     SAIDA.mkdir(exist_ok=True)
 
+    garantir_tinytex()
     garantir_pacotes()
     os.chdir(FONTE)  # \input e figuras são relativos a artigo/
 
