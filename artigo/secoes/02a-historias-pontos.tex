@@ -1,0 +1,145 @@
+% Marco teórico, parte 1 (pessoa 4): histórias de usuário, story points, Planning Poker
+% e comparação com outras técnicas de estimativa.
+% A parte 2 (velocity, produtividade e conversão em custo) fica em outro arquivo
+% (02b-...), incluído em 02-marco-teorico.tex, para evitar conflitos de merge.
+
+\subsection{Histórias de usuário}
+\label{sub:historias}
+
+Uma história de usuário descreve, em poucas linhas, uma funcionalidade do ponto
+de vista de quem a usa ou dela se beneficia. A técnica é originária do XP
+\cite{beck2004} e foi detalhada por \citeonline{cohn2004}. Ron Jeffries a
+resumiu em três elementos: o cartão (\textit{card}), com a descrição curta da
+história; a conversa (\textit{conversation}), em que o entendimento da equipe e
+do cliente se aprofunda; e a confirmação (\textit{confirmation}), que define
+como saber que a história está concluída \cite{mountaingoatstories}. Um modelo
+comum de redação é ``Como [tipo de usuário], preciso [fazer algo], para [obter
+um benefício]'' (tradução livre de modelo apresentado em
+\citeonline{mountaingoatstories}).
+
+Para a estimativa, a qualidade da história importa tanto quanto o método.
+\citeonline{wake2003} propõe o acrônimo INVEST: uma boa história é independente
+(\textit{independent}), negociável (\textit{negotiable}), valiosa
+(\textit{valuable}), estimável (\textit{estimable}), pequena (\textit{small}) e
+testável (\textit{testable}). Dois desses critérios incidem diretamente sobre o
+tema deste artigo. Ser estimável significa ser compreendida o bastante para
+receber uma estimativa aproximada, que ajude o cliente a priorizá-la e
+agendá-la. Ser pequena significa, segundo o autor, exigir em geral no máximo
+algumas semanas-pessoa de trabalho. Quando a história é grande demais ou falta
+informação para estimá-la, o passo seguinte pode ser detalhá-la, fazer um
+estudo exploratório (\textit{spike}), dividi-la ou conversar com as partes
+interessadas \cite{mountaingoatpoker}.
+
+\subsection{\textit{Story points}}
+\label{sub:storypoints}
+
+O \textit{story point} é a unidade com que as histórias são dimensionadas. Ele
+expressa o esforço necessário para concluí-las em escala relativa: uma história
+de dois pontos deve exigir cerca do dobro do esforço de uma de um ponto, e o que
+importa são as razões entre os valores, não os números em si
+\cite{mountaingoatpoints}. A mesma fonte indica que a estimativa deve refletir
+a quantidade de trabalho, a complexidade e o risco ou a incerteza da história.
+Como a escala é construída pela própria equipe, o mesmo número pode representar
+esforços diferentes em equipes diferentes. O dimensionamento costuma ser feito
+por analogia: a equipe escolhe histórias de referência e compara as demais com
+elas \cite{cohn2005}.
+
+Os valores atribuídos vêm, em geral, de uma escala discreta inspirada na
+sequência de Fibonacci. O baralho de \textit{Planning Poker} da Mountain Goat
+Software, por exemplo, usa 0, 1, 2, 3, 5, 8, 13, 20, 40 e 100
+\cite{mountaingoatpoker}, e arredonda alguns valores, como 20 no lugar de 21,
+para não sugerir uma precisão que a estimativa não tem \cite{mountaingoatfib}.
+
+Como o ponto não é uma unidade de tempo nem de dinheiro, ele só se converte em
+prazo e custo por meio da \textit{velocity} da equipe, tratada na sequência
+deste marco teórico. Além disso, a premissa de que os pontos refletem o esforço
+real tem apoio empírico limitado, como visto na Seção~\ref{sec:introducao}
+\cite{tawosi2022}.
+
+\subsection{\textit{Planning Poker}}
+\label{sub:planningpoker}
+
+O \textit{Planning Poker} é uma técnica de estimativa em grupo, baseada no
+julgamento de especialistas, usada para atribuir pontos às histórias. A
+estimativa por julgamento de especialistas é objeto de ampla revisão em
+\citeonline{jorgensen2004}, e o \textit{Planning Poker} foi proposto por
+\citeonline{grenning2002} como uma forma de estruturá-la em grupo. No
+procedimento original, cada programador escolhe uma carta em segredo, as cartas
+são reveladas ao mesmo tempo e, se os valores divergem, quem deu a estimativa
+mais alta e quem deu a mais baixa explicam seus motivos, e o grupo discute até
+chegar a um consenso. As cartas traziam os valores 1, 2, 3, 5, 7, 10 e infinito,
+em dias ideais de programação ou em pontos sem unidade, e o infinito indicava
+uma história grande demais, que devia ser dividida \cite{grenning2002}.
+
+Na versão hoje difundida, o \textit{Product Owner} apresenta o item e responde
+às dúvidas, mas não estima; os desenvolvedores escolhem as cartas em privado e
+as revelam juntos; havendo divergência, os estimadores de valor mais alto e mais
+baixo expõem primeiro suas razões, e a rodada se repete até que haja
+entendimento suficiente para registrar um valor \cite{mountaingoatpoker}. Cartas
+especiais indicam que o item não foi compreendido o bastante para ser estimado
+ou que ainda é grande demais. A mesma fonte desaconselha tirar a média das
+estimativas, pois ela esconde as razões da divergência.
+
+A revelação simultânea busca evitar a ancoragem, em que uma estimativa dita
+primeiro puxa as demais em sua direção \cite{mountaingoatpoker}; o efeito da
+ancoragem na estimativa de software é estudado por \citeonline{aranda2005}. A
+literatura empírica compara o \textit{Planning Poker} a outras formas de chegar
+a estimativas. \citeonline{haugen2006} o contrapõe à estimativa em grupo não
+estruturada em uma equipe de XP; \citeonline{molokken2008}, em estudos
+industriais, investigam se combinar estimativas por consenso reduz o otimismo
+das estimativas individuais; e \citeonline{mahnic2012} tratam do uso da técnica
+na estimativa de histórias de usuário. A revelação simultânea e a discussão são
+mecanismos para reduzir vieses individuais, não para eliminar a incerteza da
+estimativa, que continua se propagando para a previsão de prazo e custo
+(Equação~\ref{eq:previsao}).
+
+\subsection{Comparação com outras técnicas de estimativa}
+\label{sub:comparacao}
+
+Estimar esforço e custo em projetos ágeis não se resume a \textit{story
+points}. O Quadro~\ref{quad:tecnicas} compara-os a duas outras abordagens: a
+estimativa direta em horas ou dias ideais e a contagem de pontos de função. A
+primeira é a mais próxima do raciocínio financeiro, já que o tempo é o que se
+paga; o próprio \citeonline{grenning2002} admite cartas em dias ideais ou em
+pontos sem unidade. A segunda mede o tamanho do software pelas funções que ele
+oferece ao usuário, e não pelo esforço de construí-las, e foi relacionada ao
+esforço de desenvolvimento e às linhas de código por \citeonline{albrecht1983}.
+
+\begin{quadro}[htbp]
+  \caption{Comparação entre três formas de estimar o tamanho ou o esforço de
+  uma funcionalidade}
+  \label{quad:tecnicas}
+  \small
+  \begin{tabular}{@{}p{2.2cm}p{4.0cm}p{3.9cm}p{4.4cm}@{}}
+    \toprule
+    \textbf{Técnica} & \textbf{O que se estima} & \textbf{Vantagem} & \textbf{Limitação} \\
+    \midrule
+    \raggedright Horas ou dias ideais
+      & \raggedright Tempo de trabalho, estimado por julgamento de especialistas.
+      & \raggedright Converte-se diretamente em prazo e custo.
+      & \raggedright O valor varia com quem executa a tarefa e tende a sugerir mais precisão do que a estimativa tem.
+      \tabularnewline
+    \addlinespace
+    \raggedright \textit{Story points}
+      & \raggedright Esforço relativo entre histórias, em escala própria da equipe, definido por consenso (por exemplo, no \textit{Planning Poker}).
+      & \raggedright Dispensa converter a história em tempo no momento da estimativa; a conversão vem depois, pela \textit{velocity}.
+      & \raggedright Escala não comparável entre equipes; exige iterações concluídas para virar prazo e custo, e sua relação com o esforço real é discutível \cite{tawosi2022}.
+      \tabularnewline
+    \addlinespace
+    \raggedright Pontos de função
+      & \raggedright Tamanho funcional, obtido pela contagem das funções oferecidas ao usuário (entradas, saídas, consultas e arquivos).
+      & \raggedright Mede o produto, não quem o constrói, e não depende da linguagem de programação.
+      & \raggedright Exige requisitos descritos com algum detalhe e treino para a contagem; a produtividade (esforço por ponto) ainda precisa ser calibrada.
+      \tabularnewline
+    \bottomrule
+  \end{tabular}
+  \par\vspace{1ex}
+  \fonte{Elaborado pelos autores, com base em \citeonline{cohn2005}, \citeonline{grenning2002}, \citeonline{albrecht1983} e \citeonline{mountaingoatpoints}.}
+\end{quadro}
+
+Em comum, as três abordagens produzem uma medida de tamanho ou de esforço que
+só se torna prazo e custo depois de dividida pela produtividade: o termo $B$ da
+Equação~\ref{eq:previsao} muda de unidade (horas, pontos ou pontos de função),
+mas a lógica da previsão permanece. O que diferencia as técnicas é quanto
+conhecimento elas exigem no momento da estimativa e quanto da conversão para
+prazo e custo fica para depois.

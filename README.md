@@ -25,6 +25,17 @@ chave de `referencias.bib`.
 
 ## Como compilar
 
+Linux, WSL e macOS:
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+python build.py
+```
+
+Windows (PowerShell ou cmd):
+
 ```bash
 python -m venv .venv
 .venv\Scripts\activate
@@ -33,6 +44,10 @@ python build.py
 ```
 
 O PDF sai em `build/artigo.pdf`. Use `python build.py --clean` para recompilar do zero.
+
+Na primeira execução, o `build.py` baixa o TinyTeX para `~/.pytinytex` (cerca de 100 MB; em
+Linux e macOS isso é automático) e instala os pacotes LaTeX que faltam. O `tlmgr` do TinyTeX
+precisa de `perl`, que já vem no Ubuntu/WSL e no macOS. Nada é instalado no sistema.
 
 ### TinyTeX no Windows
 
