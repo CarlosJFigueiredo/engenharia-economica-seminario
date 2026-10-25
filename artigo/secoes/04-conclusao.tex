@@ -1,4 +1,55 @@
+% Conclusão (pessoa 6). Convenção igual à do marco teórico 2: sem travessões e sem ponto e vírgula.
+
 \section{Conclusão}
 \label{sec:conclusao}
 
-\textbf{[Seção em elaboração pelo grupo.]}
+Este trabalho analisou, com base na literatura, como as estimativas por histórias
+de usuário sustentam previsões de esforço, prazo e custo em projetos ágeis. A
+resposta curta é que elas sustentam, com ressalvas. O \textit{story point} não é
+uma unidade monetária e só vira prazo e custo por duas conversões em cadeia. A
+\textit{velocity} transforma pontos em tempo, e o custo da equipe transforma
+tempo em dinheiro (Seção~\ref{sub:custo}). A Equação~\ref{eq:previsao} é simples
+e útil, mas cada um de seus termos herda a incerteza de quem o produziu.
+
+Retomando os objetivos específicos, o marco teórico conceituou histórias de
+usuário, \textit{story points} e \textit{velocity} e mostrou como a produtividade
+da equipe liga pontos a prazo e a custo. As evidências empíricas reunidas na
+Introdução e na Seção~\ref{sec:exemplos} são menos favoráveis do que a prática
+sugere. A relação entre pontos e esforço real tem apoio limitado
+\cite{tawosi2022}, os modelos de aprendizado de máquina nem sempre superam
+referências simples \cite{tawosi2023}, e as avaliações de incerteza tendem ao
+excesso de confiança \cite{jorgensen2005}. Os exemplos hipotéticos mostraram
+duas aplicações econômicas. Uma faixa de 8 a 10 \textit{sprints} manteve o VPL
+positivo, de modo que a incerteza não mudou a decisão de investir, e o custo por
+ponto permitiu ordenar funcionalidades pelo retorno, como faz o WSJF.
+
+Daí saem algumas boas práticas para o uso financeiro das estimativas:
+%
+\begin{alineas}
+  \item apresentar o custo como uma faixa, calculada com os extremos da
+        \textit{velocity}, e não como um número único (Equação~\ref{eq:intervalo});
+  \item dar mais peso ao cenário pessimista, já que a distribuição dos atrasos
+        tem cauda longa \cite{little2006};
+  \item refazer a previsão a cada \textit{sprint} e acompanhar o custo e o prazo
+        com indicadores como $CPI$ e $SPI$ \cite{sulaiman2006};
+  \item não comparar pontos nem \textit{velocity} entre equipes e não usar a
+        \textit{velocity} como meta de desempenho, o que a faria perder o valor
+        preditivo; e
+  \item comparar qualquer estimador, humano ou automático, com um
+        \textit{baseline} simples, como a mediana histórica \cite{sarro2018}.
+\end{alineas}
+
+O trabalho tem limitações. É uma pesquisa bibliográfica e exploratória, com
+amostra de fontes desigual entre os periódicos consultados, como já dito nos
+procedimentos metodológicos. Os exemplos são hipotéticos e usam valores
+escolhidos para ilustrar o cálculo, sem dados de um projeto real. As fontes de
+mercado são documentação de fornecedores e não medem a acurácia das previsões.
+Esses limites indicam caminhos para estudos futuros, como aplicar o método a
+dados históricos de uma organização, para verificar quão larga precisa ser a
+faixa de custo, e comparar a previsão por pontos com a previsão em horas ou em
+pontos de função em projetos de mesmo tipo.
+
+Em síntese, estimar por histórias de usuário continua sendo uma forma prática e
+barata de planejar. O cuidado necessário é não tratar o número que sai da
+conta como certo. O que o gestor deve levar à decisão de investimento é uma
+faixa de valores, com seus pressupostos explícitos, revista a cada iteração.

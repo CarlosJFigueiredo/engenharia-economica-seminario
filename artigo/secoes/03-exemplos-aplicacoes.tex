@@ -1,4 +1,168 @@
+% Exemplos e aplicações (pessoa 6). Os valores numéricos dos exemplos são hipotéticos e
+% seguem o exemplo da Introdução (B = 240 pontos, 30 pontos por sprint, R$ 60.000 por sprint).
+% Convenção (igual à do marco teórico 2): sem travessões e sem ponto e vírgula; citações com
+% vários autores usam \citeonline.
+
 \section{Exemplos e aplicações}
 \label{sec:exemplos}
 
-\textbf{[Seção em elaboração pelo grupo.]}
+Esta seção mostra a estimativa por histórias de usuário em uso. Primeiro, dois
+exemplos numéricos hipotéticos ligam a previsão da Seção~\ref{sec:marco} a
+decisões de investimento. Depois, são reunidas aplicações da literatura
+acadêmica e do mercado.
+
+\subsection{Exemplo 1: a previsão de custo sustenta o investimento?}
+\label{sub:ex-investimento}
+
+Retome-se o projeto da Introdução, com \textit{backlog} de 240 pontos e custo de
+R\$\,60.000 por \textit{sprint}. A Seção~\ref{sub:custo} mostrou que, com
+\textit{velocities} entre 26 e 34 pontos, o projeto leva de 8 a 10
+\textit{sprints} e custa entre R\$\,480.000 e R\$\,600.000. Suponha agora que o
+produto, depois de entregue, gere um benefício líquido de R\$\,80.000 por mês
+durante 24 meses, que a taxa mínima de atratividade seja de 1\% ao mês e que
+cada mês tenha dois \textit{sprints}. Os valores são hipotéticos, mas bastam para
+mostrar o raciocínio. O Quadro~\ref{quad:vpl} compara os cenários.
+
+\begin{quadro}[htbp]
+  \caption{Valor presente líquido (VPL) do exemplo hipotético nos cenários otimista e pessimista}
+  \label{quad:vpl}
+  \small
+  \begin{tabular}{@{}lrr@{}}
+    \toprule
+    \textbf{Indicador} & \textbf{Otimista} & \textbf{Pessimista} \\
+    \midrule
+    \textit{Sprints} ($N$)                              & 8              & 10 \\
+    Custo total ($C$)                                   & R\$\,480.000   & R\$\,600.000 \\
+    Valor presente do custo                             & R\$\,469.404   & R\$\,583.864 \\
+    Valor presente dos benefícios                       & R\$\,1.633.158 & R\$\,1.616.988 \\
+    VPL                                                 & R\$\,1.163.755 & R\$\,1.033.124 \\
+    Retorno do custo (\textit{payback}) após a entrega  & 6,0 meses      & 7,5 meses \\
+    \bottomrule
+  \end{tabular}
+  \par\vspace{1ex}
+  \fonte{Elaborado pelos autores, com valores hipotéticos.}
+\end{quadro}
+
+Nos dois cenários o VPL é positivo, de modo que a faixa de incerteza da
+\textit{velocity} não altera a decisão de investir. Isso acontece porque o
+benefício mensal é grande em relação ao custo, e não porque a previsão seja
+precisa. Em um projeto com retorno mais apertado, o resultado poderia mudar de
+sinal dentro da própria faixa, e aí a incerteza passaria a ser o dado mais
+importante do orçamento. O cálculo também mostra o efeito do atraso. Passar de 8
+para 10 \textit{sprints} reduz o VPL em cerca de R\$\,130.000, valor próximo ao
+custo adicional de R\$\,120.000, e o restante vem do benefício que começa um mês
+depois. Um atraso custa, portanto, um pouco mais do que as iterações extras.
+
+\subsection{Exemplo 2: priorização pelo custo em pontos}
+\label{sub:ex-priorizacao}
+
+Quando cada história tem pontos e a equipe tem um custo por ponto, é possível
+dar o preço de cada item do \textit{backlog}. Com $c_p = \text{R\$}\,2.000$ da
+Equação~\ref{eq:previsao}, considere quatro funcionalidades hipotéticas e o
+benefício mensal que cada uma deve gerar. O Quadro~\ref{quad:priorizacao} mostra
+o custo, o benefício por ponto e o retorno de cada uma.
+
+\begin{quadro}[htbp]
+  \caption{Priorização de quatro funcionalidades hipotéticas pelo custo em pontos}
+  \label{quad:priorizacao}
+  \small
+  \begin{tabular}{@{}lrrrrrr@{}}
+    \toprule
+    \textbf{Func.} & \textbf{Pontos} & \textbf{Custo ($B\,c_p$)} & \textbf{Benef. mensal}
+      & \textbf{Benef./ponto} & \textbf{\textit{Payback}} & \textbf{Ordem} \\
+    \midrule
+    C & 5  & R\$\,10.000 & R\$\,9.000  & R\$\,1.800 & 1,1 mês   & 1.º \\
+    A & 8  & R\$\,16.000 & R\$\,12.000 & R\$\,1.500 & 1,3 mês   & 2.º \\
+    B & 13 & R\$\,26.000 & R\$\,15.000 & R\$\,1.154 & 1,7 mês   & 3.º \\
+    D & 21 & R\$\,42.000 & R\$\,20.000 & R\$\,952   & 2,1 meses & 4.º \\
+    \bottomrule
+  \end{tabular}
+  \par\vspace{1ex}
+  \fonte{Elaborado pelos autores, com valores hipotéticos.}
+\end{quadro}
+
+A funcionalidade D tem o maior benefício absoluto, mas é a última da fila,
+porque exige mais pontos por real de benefício. Esse é o mesmo critério do
+\textit{Weighted Shortest Job First} (WSJF), que ordena o trabalho pela razão
+entre o custo do atraso e o tamanho da tarefa \cite{safewsjf}. Aqui o tamanho
+é medido em pontos. A ordem só vale enquanto os pontos forem comparáveis dentro
+da mesma equipe e o custo por ponto for razoavelmente estável. Como a escala é
+relativa (Seção~\ref{sub:storypoints}), o mesmo exercício não deve ser feito
+com pontos de equipes diferentes.
+
+\subsection{Aplicações na literatura acadêmica}
+\label{sub:aplic-academicas}
+
+A literatura que sustenta os exemplos anteriores pode ser lida em quatro frentes
+de aplicação, resumidas no Quadro~\ref{quad:literatura}.
+
+\begin{quadro}[htbp]
+  \caption{Frentes de aplicação da estimativa por histórias de usuário na literatura}
+  \label{quad:literatura}
+  \small
+  \begin{tabular}{@{}p{3.0cm}p{6.0cm}p{5.5cm}@{}}
+    \toprule
+    \textbf{Frente} & \textbf{O que a literatura faz} & \textbf{Uso financeiro} \\
+    \midrule
+    \raggedright Estimar os pontos
+      & \raggedright Aprendizado de máquina para estimar \textit{story points} a partir do texto das \textit{issues} \cite{choetkiertikul2019,fu2023}, avaliado contra \textit{baselines} simples \cite{tawosi2023}.
+      & \raggedright Reduzir o custo e o viés da estimativa humana, desde que o modelo supere de fato a mediana histórica.
+      \tabularnewline
+    \addlinespace
+    \raggedright Estimar em grupo
+      & \raggedright Estudos empíricos do \textit{Planning Poker} \cite{haugen2006,molokken2008,mahnic2012}.
+      & \raggedright Estimativas menos enviesadas alimentam o termo $B$ da Equação~\ref{eq:previsao}.
+      \tabularnewline
+    \addlinespace
+    \raggedright Prever a \textit{velocity}
+      & \raggedright Rede bayesiana dinâmica \cite{hearty2009} e previsão da entrega do \textit{sprint} em curso \cite{choetkiertikul2018}.
+      & \raggedright Transformar a \textit{velocity} fixa em distribuição e dar probabilidade aos cenários da Equação~\ref{eq:intervalo}.
+      \tabularnewline
+    \addlinespace
+    \raggedright Controlar custo e prazo
+      & \raggedright AgileEVM \cite{sulaiman2006} e análise da incerteza de prazo ao longo do projeto \cite{little2006}.
+      & \raggedright Acompanhar $CPI$ e $SPI$ e rever a previsão a cada \textit{sprint}.
+      \tabularnewline
+    \bottomrule
+  \end{tabular}
+  \par\vspace{1ex}
+  \fonte{Elaborado pelos autores, com base nos trabalhos citados.}
+\end{quadro}
+
+Duas delas pedem uma observação. Na primeira, o debate ainda está aberto. O
+Deep-SE superou as referências de comparação em 16 projetos
+\cite{choetkiertikul2019}, mas a réplica de \citeonline{tawosi2023} encontra
+vantagem estatisticamente significativa em poucos casos, e a própria relação
+entre pontos e esforço é questionada por \citeonline{tawosi2022}. Estimar pontos
+melhor só ajuda a previsão financeira se os pontos medirem esforço. Na segunda,
+a de prever a \textit{velocity}, os trabalhos convergem em tratar a previsão
+como uma distribuição que se atualiza a cada iteração, o que combina com a
+recomendação de apresentar o custo como faixa. As revisões sistemáticas de
+\citeonline{usman2014} e \citeonline{fernandezdiego2020} mostram que esses temas
+convivem com técnicas mais simples, como o julgamento de especialistas e o
+\textit{Planning Poker}, que seguem predominantes.
+
+\subsection{Aplicações no mercado}
+\label{sub:aplic-mercado}
+
+No mercado, a estimativa por histórias de usuário aparece incorporada às
+ferramentas e às práticas de gestão. O Jira, da Atlassian, tem um gráfico de
+\textit{velocity} que compara o que a equipe assumiu no início do
+\textit{sprint} com o que concluiu, usando \textit{story points}, tempo original
+ou contagem de itens, e traça a média dos \textit{sprints} exibidos. A empresa
+afirma que o gráfico ajuda a prever em quanto tempo o \textit{backlog} é
+consumido e que a previsão melhora com mais \textit{sprints} no histórico
+\cite{atlassianvelocity}. É a Equação~\ref{eq:velocity} dentro da ferramenta, e a
+mesma ressalva vale: a média ajuda, mas esconde a dispersão.
+
+Em organizações grandes, o desafio é levar essas medidas aos níveis de produto e
+portfólio. No caso estudado por \citeonline{schull2023}, a dificuldade de
+reportar o desempenho de equipes ágeis nesses níveis aparece como um problema de
+gestão, não de cálculo. Já a priorização econômica, como a do
+Exemplo~2, é prevista em métodos de escala como o SAFe, por meio do WSJF
+\cite{safewsjf}. O uso é amplo, pois 71\% dos respondentes do 17º
+\textit{State of Agile Report} dizem usar práticas ágeis no desenvolvimento de
+software \cite{digitalai2024}. As fontes de mercado aqui citadas são
+documentação de fornecedores e descrevem o que as ferramentas e os métodos
+propõem, não o quanto as previsões acertam. Para isso, é preciso recorrer aos
+estudos empíricos da subseção anterior.
