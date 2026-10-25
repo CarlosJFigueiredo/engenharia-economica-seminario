@@ -1,0 +1,56 @@
+% Seminário 2/2026 — Engenharia Econômica para Software (PUC Minas)
+% Tema 1: Estimativa baseada em histórias de usuário
+%
+% Estrutura: capa -> sumário -> seções (artigo/secoes/) -> referências (referencias.bib).
+% Compilar com: python build.py   (na raiz do repositório)
+
+\documentclass[article,12pt,a4paper,oneside,brazil,section=TITLE]{abntex2}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{mathptmx}
+\usepackage{microtype}
+\usepackage{indentfirst}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage[alf]{abntex2cite}
+
+\hypersetup{
+  pdftitle   = {Estimativa baseada em histórias de usuário},
+  pdfauthor  = {Carlos José Gomes Batista Figueiredo; Bernardo Souza Alvim; Mateus Araujo Santos; Gabriela Alvarenga Cardoso},
+  pdfsubject = {Seminário 2/2026 — Engenharia Econômica para Software — PUC Minas},
+  colorlinks = true,
+  linkcolor  = black,
+  citecolor  = black,
+  urlcolor   = black
+}
+
+% Tipografia ABNT: Times em todo o texto; títulos de seção em negrito, mesmo corpo do texto.
+\renewcommand{\ABNTEXchapterfont}{\rmfamily\bfseries}
+\renewcommand{\ABNTEXsectionfontsize}{\normalsize}
+\renewcommand{\ABNTEXsubsectionfontsize}{\normalsize}
+
+\OnehalfSpacing
+
+\begin{document}
+
+\pagestyle{empty}
+\input{secoes/00-capa}
+
+\renewcommand{\contentsname}{SUMÁRIO}
+\renewcommand{\bibname}{REFERÊNCIAS}
+\tableofcontents*
+\newpage
+
+\pagestyle{simple}
+\input{secoes/01-introducao}
+\input{secoes/02-marco-teorico}
+\input{secoes/03-exemplos-aplicacoes}
+\input{secoes/04-conclusao}
+
+\bibliography{referencias}
+
+% Apêndices e anexos (se houver): \appendix e \input{secoes/apendice-a}
+
+\end{document}

@@ -1,0 +1,131 @@
+\section{Introdução}
+\label{sec:introducao}
+
+\subsection{Contextualização}
+
+A Engenharia Econômica para Software trata das decisões de investimento em
+sistemas sob incerteza: quanto custa construir, em quanto tempo e se o retorno
+esperado justifica o desembolso. Todas essas perguntas dependem de uma
+estimativa de esforço, já que o esforço, valorado pelo custo do tempo da
+equipe, é o principal componente do custo de um projeto de software
+\cite{boehm1981}. Não surpreende que a estimativa de custos seja um dos temas
+mais estudados da área: \citeonline{jorgensen2007} identificaram 304 artigos
+sobre o assunto em 76 periódicos.
+
+Nas últimas duas décadas, boa parte desse planejamento migrou de planos
+detalhados e preditivos para ciclos curtos e adaptativos. Desde o Manifesto
+Ágil \cite{agilemanifesto2001}, métodos como Scrum e Extreme Programming (XP)
+se difundiram: o 17º \textit{State of Agile Report}, pesquisa com 788
+profissionais, registra que 71\% dos respondentes usam práticas ágeis no ciclo
+de desenvolvimento de software \cite{digitalai2024}. Nesses métodos, os
+requisitos são escritos como histórias de usuário, técnica originária do XP
+\cite{beck2004,cohn2004}, e estimados em \textit{story points}, unidades
+relativas de tamanho e complexidade, e não em horas ou em reais
+\cite{cohn2005}. A soma dos pontos concluídos em uma iteração define a
+\textit{velocity} da equipe, que serve de base para prever quantas iterações
+faltam para esvaziar o \textit{backlog} \cite{cohn2005}. O Guia do Scrum, por
+sua vez, não prescreve uma técnica de dimensionamento e atribui essa
+responsabilidade aos desenvolvedores \cite{scrumguide2020}.
+
+\subsection{Problema e relevância econômica}
+
+Como o \textit{story point} não é uma unidade monetária, é preciso uma ponte
+entre a escala de pontos e a escala financeira. A ponte mais simples combina
+três grandezas: o \textit{backlog} restante $B$ (em pontos), a \textit{velocity}
+média $\bar{v}$ (pontos por \textit{sprint}) e o custo da equipe por
+\textit{sprint} $c_s$. Com elas obtêm-se o número previsto de \textit{sprints}
+$N$, o custo por ponto $c_p$ e o custo total previsto $C$:
+%
+\begin{equation}
+  N = \frac{B}{\bar{v}}, \qquad
+  c_p = \frac{c_s}{\bar{v}}, \qquad
+  C = N\,c_s = B\,c_p .
+  \label{eq:previsao}
+\end{equation}
+%
+Por exemplo, com valores hipotéticos de $B = 240$ pontos,
+$\bar{v} = 30$ pontos por \textit{sprint} e $c_s = \text{R\$}\,60.000$,
+tem-se $N = 8$ \textit{sprints}, $c_p = \text{R\$}\,2.000$ por ponto e
+$C = \text{R\$}\,480.000$.
+
+A simplicidade da Equação~\ref{eq:previsao} esconde o problema econômico do
+tema: cada termo herda a incerteza da estimativa que o produz. O
+\textit{story point} é a métrica de tamanho mais usada em projetos ágeis
+\cite{usman2014,fernandezdiego2020}, e sua atribuição costuma ser feita por
+julgamento de especialistas, em especial com \textit{Planning Poker}
+\cite{fernandezdiego2020}. Há indícios, porém, de que os pontos atribuídos por
+humanos nem sempre refletem o tempo de desenvolvimento efetivamente gasto: em
+37.440 histórias de 37 projetos de código aberto, \citeonline{tawosi2022}
+encontram evidências de que o \textit{story point} pode não ser um bom
+indicador de esforço. A
+\textit{velocity}, por sua vez, não é constante, e por isso há trabalhos
+dedicados a prevê-la \cite{hearty2009} e a antecipar se uma iteração em curso
+vai entregar o que foi planejado \cite{choetkiertikul2018}. Por fim,
+\citeonline{jorgensen2005} mostra que as avaliações de incerteza em custo de
+software tendem ao excesso de confiança, ou seja, a intervalos mais estreitos
+do que a realidade justifica. Erros nesses termos chegam ao orçamento, ao
+cronograma e à decisão de investir.
+
+A pesquisa recente tem tentado reduzir esse erro com aprendizado de máquina.
+\citeonline{choetkiertikul2019} propõem o Deep-SE, que estima \textit{story
+points} a partir do texto das \textit{issues} e superou as referências de
+comparação em 23.313 \textit{issues} de 16 projetos de código aberto;
+\citeonline{fu2023} seguem a mesma linha com um modelo baseado em
+transformadores (GPT2SP). Entretanto, ao replicar o Deep-SE,
+\citeonline{tawosi2023} constatam que ele supera as estimativas de mediana e o
+TF-IDF com SVM em poucos casos com significância estatística. Esse debate
+reforça a importância de comparar qualquer estimador com um \textit{baseline}
+bem definido, prática que, para a estimativa de esforço em geral, ajuda a
+reduzir a instabilidade das conclusões \cite{sarro2018}. Do lado gerencial, o uso das métricas ágeis em
+escala também é desafiador: \citeonline{schull2023} mostram, em estudo de caso
+numa grande montadora, a dificuldade de reportar progresso e desempenho de
+equipes ágeis aos níveis de produto e portfólio. E, na ótica da economia da
+informação, \citeonline{koch2008} ilustra, para projetos de código aberto, que
+modelos de esforço baseados na participação de programadores estimam um esforço
+sensivelmente menor do que modelos baseados em medidas de saída, como linhas de
+código, isto é, a escolha da medida de esforço altera as conclusões sobre a
+eficiência econômica do desenvolvimento.
+
+\subsection{Objetivos}
+
+O objetivo geral deste trabalho é analisar, com base na literatura, como as
+estimativas baseadas em histórias de usuário (\textit{story points} e
+\textit{velocity}) sustentam previsões de esforço, prazo e custo em projetos
+ágeis, e quais são os limites dessas previsões. Constituem objetivos
+específicos:
+%
+\begin{alineas}
+  \item conceituar histórias de usuário, \textit{story points} e
+        \textit{velocity};
+  \item descrever como a produtividade da equipe converte pontos em prazo e em
+        custo;
+  \item examinar as evidências empíricas sobre a acurácia dessas estimativas;
+  \item apresentar exemplos e aplicações, acadêmicos e de mercado; e
+  \item discutir limitações e boas práticas para o uso financeiro das
+        estimativas.
+\end{alineas}
+
+\subsection{Procedimentos metodológicos}
+
+Trata-se de uma pesquisa bibliográfica, exploratória e qualitativa. Partiu-se
+dos periódicos sugeridos no enunciado do seminário, a saber, \textit{IEEE
+Transactions on Software Engineering} (TSE), \textit{ACM Transactions on
+Software Engineering and Methodology} (TOSEM), \textit{Information Systems and
+e-Business Management} (ISeBM) e \textit{Information Economics and Policy}
+(IEP), complementados por revisões sistemáticas, anais de eventos e livros de
+referência da área. Os dados bibliográficos (volume, número, páginas e DOI)
+foram conferidos no Crossref. Nas buscas realizadas, os estudos dedicados a
+\textit{story points} e \textit{velocity} concentraram-se no TSE; do TOSEM, do
+ISeBM e do IEP foram aproveitados trabalhos adjacentes, sobre
+\textit{baselines} de estimativa, reporte de métricas em organizações ágeis e
+modelagem econômica de esforço, respectivamente. Essa distribuição desigual é
+uma limitação do levantamento e não esgota a literatura disponível.
+
+\subsection{Organização do trabalho}
+
+Além desta introdução, o artigo está organizado em três seções. A
+Seção~\ref{sec:marco} apresenta o marco teórico sobre histórias de usuário,
+\textit{story points}, \textit{velocity} e sua relação com previsões
+financeiras. A Seção~\ref{sec:exemplos} traz exemplos e aplicações, e a
+Seção~\ref{sec:conclusao} reúne as conclusões. Seguem-se as referências
+bibliográficas.
